@@ -35,8 +35,6 @@ class AuthController extends Controller
             "password" => Hash::make($request->password),
         ]);
 
-        Log::channel("stderr")->info($user->toArray());
-
         return response()->json(
             [
                 "message" => "User registered successfully",

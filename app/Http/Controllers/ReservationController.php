@@ -11,6 +11,52 @@ use App\Models\Reservation;
 
 class ReservationController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/reservation",
+     *     summary="Create a reservation",
+     *     tags={"Reservations"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="event_id", type="integer", description="Event ID"),
+     *             @OA\Property(property="numberOfTickets", type="integer", description="Number of tickets")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Reservation registered successfully"),
+     *             @OA\Property(property="registration", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object", example={"event_id": {"The event_id field is required."}})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Not Found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Event not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Event already happened"),
+     *             @OA\Property(property="messages", type="string", example="Not enough tickets available")
+     *         )
+     *     )
+     * )
+     */
+
     public function create(Request $request)
     {
         try {
@@ -81,6 +127,43 @@ class ReservationController extends Controller
             201
         );
     }
+
+    /**
+     * @OA\Get(
+     *     path="/reservations/user",
+     *     summary="Get user reservations",
+     *     tags={"Reservations"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                  @OA\Property(property="id", type="integer", description="Reservation ID"),
+     *                  @OA\Property(property="event_id", type="integer", description="Event ID"),
+     *                  @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                  @OA\Property(property="numberOfTickets", type="integer", description="Number of tickets"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time", description="Created at"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time", description="Updated at"),
+     *                  @OA\Property(property="event", type="object", description="Event",
+     *                      @OA\Property(property="id", type="integer", description="Event ID"),
+     *                      @OA\Property(property="name", type="string", description="Event name"),
+     *                      @OA\Property(property="description", type="string", description="Event description"),
+     *                      @OA\Property(property="eventDate", type="string", format="date-time", description="Event date"),
+     *                      @OA\Property(property="attendeesLimit", type="integer", description="Event attendees limit"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", description="Created at"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", description="Updated at")
+     *                      )
+     *                 )
+     *            )
+     *        )
+     *    ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
 
     public function getUserReservations(Request $request)
     {

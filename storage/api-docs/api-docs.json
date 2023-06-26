@@ -262,7 +262,7 @@
                 "tags": [
                     "Events"
                 ],
-                "summary": "Get event by ID",
+                "summary": "Get event by ID with attendees",
                 "operationId": "172e6c79b356b3ecbdf017294ea0ba1f",
                 "parameters": [
                     {
@@ -319,6 +319,35 @@
                                         "deleted_at": {
                                             "type": "string",
                                             "format": "date-time"
+                                        },
+                                        "reservations": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "event_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "deleted_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"

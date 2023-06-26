@@ -247,7 +247,7 @@ class EventController extends Controller
     /**
      * @OA\Get(
      *     path="/event/{id}",
-     *     summary="Get event by ID",
+     *     summary="Get event by ID with attendees",
      *     tags={"Events"},
      *     @OA\Parameter(
      *         name="id",
@@ -271,6 +271,18 @@ class EventController extends Controller
      *                  @OA\Property(property="created_at", type="datetime"),
      *                  @OA\Property(property="updated_at", type="datetime"),
      *                  @OA\Property(property="deleted_at", type="datetime"),
+     *                 @OA\Property(
+     *                           property="reservations",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(property="id", type="integer"),
+     *                          @OA\Property(property="event_id", type="integer"),
+     *                          @OA\Property(property="user_id", type="integer"),
+     *                          @OA\Property(property="created_at", type="datetime"),
+     *                          @OA\Property(property="updated_at", type="datetime"),
+     *                          @OA\Property(property="deleted_at", type="datetime"),
+     *                          )
+     *                  )
      *           )
      *     ),
      *     @OA\Response(
@@ -282,7 +294,7 @@ class EventController extends Controller
 
     public function getEvent(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::with("reservations")->findOrFail($id);
 
         return response()->json($event);
     }

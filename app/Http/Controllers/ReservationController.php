@@ -39,6 +39,15 @@ class ReservationController extends Controller
             );
         }
 
+        if (strtotime($event->eventDate) < strtotime("now")) {
+            return response()->json(
+                [
+                    "message" => "Event already happened",
+                ],
+                422
+            );
+        }
+
         $eventReservations = Reservation::where(
             "event_id",
             $request->event_id
